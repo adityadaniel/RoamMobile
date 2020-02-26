@@ -24,6 +24,7 @@
 		11799EF324061031009049FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11799EF624061031009049FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11799EF824061031009049FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11799EFE24063DEA009049FD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 				11799EF324061031009049FD /* Assets.xcassets */,
 				11799EF524061031009049FD /* LaunchScreen.storyboard */,
 				11799EF824061031009049FD /* Info.plist */,
+				11799EFE24063DEA009049FD /* README.md */,
 			);
 			path = RoamMobile;
 			sourceTree = "<group>";
