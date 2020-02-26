@@ -16,7 +16,7 @@ class MainViewController: UIViewController {
   
   let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
   
-  var webView: NoToolbar!
+  var webView: WKWebView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,8 +30,7 @@ class MainViewController: UIViewController {
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
     config.userContentController = wkController
     
-//    webView = WKWebView(frame: .zero, configuration: config) as! NoToolbar
-    webView = CustomToolbarWebView(frame: .zero, configuration: config)
+    webView = WKWebView(frame: .zero, configuration: config)
     let url = URL(string: "https://roamresearch.com")
     let urlRequest = URLRequest(url: url!)
     webView.load(urlRequest)
@@ -46,44 +45,10 @@ class MainViewController: UIViewController {
       webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
     
-    setToolbar()
-  }
-  
-  override var inputAccessoryView: UIView? {
-    return nil
-  }
-  
-  func setToolbar() {
-    let screenWidth = self.view.bounds.width
-    let increaseIndentBarButton = UIBarButtonItem(image: UIImage(systemName: "increase.indent"), style: .plain, target: self, action: #selector(handleIncreaseIndent))
-    
-    let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 44))
-    toolbar.isTranslucent = false
-    toolbar.translatesAutoresizingMaskIntoConstraints = false
-    
-    toolbar.items = [increaseIndentBarButton]
-    
-    webView.addSubview(toolbar)
-    
-    NSLayoutConstraint.activate([
-      toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-    ])
-    
-  }
-  
-  @objc func handleIncreaseIndent() {
-    
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .darkContent
   }
 
-  
-  
 }
-
-
-
