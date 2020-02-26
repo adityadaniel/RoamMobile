@@ -65,13 +65,13 @@ class MainViewController: UIViewController {
     toolBar.tintColor = .systemBlue
     toolBar.barTintColor = .systemBackground
     
-    let preferredSymbolConfig = UIImage.SymbolConfiguration(weight: .semibold)
+    let preferredSymbolConfig = UIImage.SymbolConfiguration(weight: .bold)
     
     let increaseIndentButton = UIBarButtonItem(image: UIImage(systemName: "increase.indent", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleIncreaseIndent))
     let decreaseIndentButton = UIBarButtonItem(image: UIImage(systemName: "decrease.indent", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleDecreaseIndent))
     let upButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveUp))
     let downButton = UIBarButtonItem(image: UIImage(systemName: "arrow.down", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveDown))
-    let photoButton = UIBarButtonItem(image: UIImage(systemName: "photo.fill", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleInsertPhoto))
+    let searchOrCreateButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleSearchOrCreate))
     
     let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil )
     let toolBarItems = [
@@ -83,7 +83,7 @@ class MainViewController: UIViewController {
       flexibleSpaceItem,
       downButton,
       flexibleSpaceItem,
-      photoButton
+      searchOrCreateButton
     ]
     
     toolBar.setItems(toolBarItems, animated: false)
@@ -115,10 +115,9 @@ class MainViewController: UIViewController {
     webView.evaluateJavaScript(jsScript, completionHandler: nil)
   }
   
-  @objc func handleInsertPhoto() {
-    // bp3-button bp3-minimal bp3-icon-media rm-mobile-button dont-unfocus-block
-    let jsScript = "document.getElementsByClassName('bp3-button bp3-minimal bp3-icon-media rm-mobile-button dont-unfocus-block')[0].click();"
-    webView.resignFirstResponder()
+  @objc func handleSearchOrCreate() {
+    // #find-or-create-input
+    let jsScript = "document.getElementById('find-or-create-input').focus();"
     webView.evaluateJavaScript(jsScript, completionHandler: nil)
   }
   
