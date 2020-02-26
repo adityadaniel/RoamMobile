@@ -43,6 +43,7 @@
 			children = (
 				11799EE92406102F009049FD /* RoamMobile */,
 				11799EE82406102F009049FD /* Products */,
+				11799EFE24063DEA009049FD /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,7 +65,6 @@
 				11799EF324061031009049FD /* Assets.xcassets */,
 				11799EF524061031009049FD /* LaunchScreen.storyboard */,
 				11799EF824061031009049FD /* Info.plist */,
-				11799EFE24063DEA009049FD /* README.md */,
 			);
 			path = RoamMobile;
 			sourceTree = "<group>";
