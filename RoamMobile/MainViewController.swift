@@ -23,10 +23,22 @@ class MainViewController: UIViewController {
   var webView: WKWebView!
   var toolbar : UIToolbar?
   
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     view.backgroundColor = .white
+    
+    setupWebView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: true)
+  }
+  
+  
+  func setupWebView() {
     
     // add disable zoom script
     let disableZoom = WKUserScript(source: disableZoomScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
@@ -39,17 +51,19 @@ class MainViewController: UIViewController {
     // add larger font script
     let largerFontScriptWK = WKUserScript(source: largerFontJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     wkController.addUserScript(largerFontScriptWK)
-  
+    
     // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
     config.userContentController = wkController
     
     webView = WKWebView(frame: .zero, configuration: config)
     let url = URL(string: "https://roamresearch.com/#/")
-    let urlRequest = URLRequest(url: url!)
+    let urlRequest = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy)
     webView.load(urlRequest)
     
     webView.configuration.userContentController.add(self, name: "logHandler")
+    webView.addInputAccessoryView(toolbar: UIToolbar(frame: .zero))
+    webView.navigationDelegate = self
     
     webView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(webView)
@@ -60,19 +74,6 @@ class MainViewController: UIViewController {
       webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
-    
-    webView.addInputAccessoryView(toolbar: self.getToolbar(height: 44))
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: true)
-    
-    if traitCollection.userInterfaceStyle == .light {
-      print("light mode")
-    } else {
-      print("dark mode")
-    }
   }
   
   func getToolbar(height: CGFloat) -> UIToolbar? {
@@ -109,7 +110,7 @@ class MainViewController: UIViewController {
     toolBar.isUserInteractionEnabled = true
     
     toolBar.sizeToFit()
-    return toolBar
+    return UIToolbar(frame: .zero)
   }
   
   @objc func handleIncreaseIndent() {
@@ -154,3 +155,5 @@ extension MainViewController: WKScriptMessageHandler {
   }
 }
 
+extension MainViewController: WKNavigationDelegate {
+}
