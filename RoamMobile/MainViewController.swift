@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
   let config = WKWebViewConfiguration()
   let wkController = WKUserContentController()
   
-  let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');document.getElementsByTagName('head')[0].appendChild(meta);"
+  let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');document.head.appendChild(meta);"
   
   let largerFontJS = "var style = document.createElement('style'); style.innerHTML = 'body { font-size: 17px; } input { font-size: 17px; }'; document.head.appendChild(style);"
   
