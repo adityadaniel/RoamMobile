@@ -14,7 +14,9 @@ class MainViewController: UIViewController {
   let config = WKWebViewConfiguration()
   let wkController = WKUserContentController()
   
-  let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1'); document.getElementsByTagName('head')[0].appendChild(meta);"
+  let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');document.getElementsByTagName('head')[0].appendChild(meta);"
+  
+  let largerFontJS = "var style = document.createElement('style'); style.innerHTML = 'body { font-size: 17px; } input { font-size: 17px; }'; document.head.appendChild(style);"
   
   let source = "function captureLog(msg) { window.webkit.messageHandlers.logHandler.postMessage(msg); } window.console.log = captureLog;"
   
@@ -26,21 +28,28 @@ class MainViewController: UIViewController {
     
     view.backgroundColor = .white
     
+    // add disable zoom script
     let disableZoom = WKUserScript(source: disableZoomScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     wkController.addUserScript(disableZoom)
+    
+    // add log handler script
     let logScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     wkController.addUserScript(logScript)
-    // needed in order to be able to sign in when using Google service
+    
+    // add larger font script
+    let largerFontScriptWK = WKUserScript(source: largerFontJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+    wkController.addUserScript(largerFontScriptWK)
+  
+    // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
     config.userContentController = wkController
     
     webView = WKWebView(frame: .zero, configuration: config)
-    let url = URL(string: "https://roamresearch.com")
+    let url = URL(string: "https://roamresearch.com/#/")
     let urlRequest = URLRequest(url: url!)
     webView.load(urlRequest)
     
     webView.configuration.userContentController.add(self, name: "logHandler")
-    
     
     webView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(webView)
@@ -53,7 +62,17 @@ class MainViewController: UIViewController {
     ])
     
     webView.addInputAccessoryView(toolbar: self.getToolbar(height: 44))
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: true)
     
+    if traitCollection.userInterfaceStyle == .light {
+      print("light mode")
+    } else {
+      print("dark mode")
+    }
   }
   
   func getToolbar(height: CGFloat) -> UIToolbar? {
@@ -72,17 +91,17 @@ class MainViewController: UIViewController {
     let upButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveUp))
     let downButton = UIBarButtonItem(image: UIImage(systemName: "arrow.down", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveDown))
     let searchOrCreateButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleSearchOrCreate))
+    let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil )
     
-    let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil )
     let toolBarItems = [
       increaseIndentButton,
-      flexibleSpaceItem,
+      spacer,
       decreaseIndentButton,
-      flexibleSpaceItem,
+      spacer,
       upButton,
-      flexibleSpaceItem,
+      spacer,
       downButton,
-      flexibleSpaceItem,
+      spacer,
       searchOrCreateButton
     ]
     
@@ -121,10 +140,6 @@ class MainViewController: UIViewController {
     webView.evaluateJavaScript(jsScript, completionHandler: nil)
   }
   
-  @objc func onToolbarDoneClick() {
-    webView.resignFirstResponder()
-  }
-  
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .darkContent
   }
@@ -137,62 +152,5 @@ extension MainViewController: WKScriptMessageHandler {
       print("LOG: \(message.body)")
     }
   }
-  
-  
 }
 
-var ToolbarHandle: UInt8 = 0
-
-extension WKWebView {
-  
-  func addInputAccessoryView(toolbar: UIView?) {
-    guard let toolbar = toolbar else {return}
-    objc_setAssociatedObject(self, &ToolbarHandle, toolbar, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    
-    var candidateView: UIView? = nil
-    for view in self.scrollView.subviews {
-      let description : String = String(describing: type(of: view))
-      if description.hasPrefix("WKContent") {
-        candidateView = view
-        break
-      }
-    }
-    guard let targetView = candidateView else {return}
-    let newClass: AnyClass? = classWithCustomAccessoryView(targetView: targetView)
-    
-    guard let targetNewClass = newClass else {return}
-    
-    object_setClass(targetView, targetNewClass)
-  }
-  
-  func classWithCustomAccessoryView(targetView: UIView) -> AnyClass? {
-    guard let _ = targetView.superclass else {return nil}
-    let customInputAccesoryViewClassName = "_CustomInputAccessoryView"
-    
-    var newClass: AnyClass? = NSClassFromString(customInputAccesoryViewClassName)
-    if newClass == nil {
-      newClass = objc_allocateClassPair(object_getClass(targetView), customInputAccesoryViewClassName, 0)
-    } else {
-      return newClass
-    }
-    
-    let newMethod = class_getInstanceMethod(WKWebView.self, #selector(WKWebView.getCustomInputAccessoryView))
-    class_addMethod(newClass.self, #selector(getter: WKWebView.inputAccessoryView), method_getImplementation(newMethod!), method_getTypeEncoding(newMethod!))
-    
-    objc_registerClassPair(newClass!)
-    
-    return newClass
-  }
-  
-  @objc func getCustomInputAccessoryView() -> UIView? {
-    var superWebView: UIView? = self
-    while (superWebView != nil) && !(superWebView is WKWebView) {
-      superWebView = superWebView?.superview
-    }
-    
-    guard let webView = superWebView else {return nil}
-    
-    let customInputAccessory = objc_getAssociatedObject(webView, &ToolbarHandle)
-    return customInputAccessory as? UIView
-  }
-}
