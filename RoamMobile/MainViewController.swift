@@ -14,15 +14,8 @@ class MainViewController: UIViewController {
   let config = WKWebViewConfiguration()
   let wkController = WKUserContentController()
   
-  let disableZoomScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');document.head.appendChild(meta);"
-  
-  let largerFontJS = "var style = document.createElement('style'); style.innerHTML = 'body { font-size: 17px; } input { font-size: 17px; }'; document.head.appendChild(style);"
-  
-  let source = "function captureLog(msg) { window.webkit.messageHandlers.logHandler.postMessage(msg); } window.console.log = captureLog;"
-  
   var webView: WKWebView!
   var toolbar : UIToolbar?
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -37,20 +30,15 @@ class MainViewController: UIViewController {
     navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
-  
   func setupWebView() {
     
-    // add disable zoom script
-    let disableZoom = WKUserScript(source: disableZoomScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-    wkController.addUserScript(disableZoom)
+    if let disableZoomScript = generateMetaViewportScript() {
+      wkController.addUserScript(disableZoomScript)
+    }
     
-    // add log handler script
-    let logScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-    wkController.addUserScript(logScript)
-    
-    // add larger font script
-    let largerFontScriptWK = WKUserScript(source: largerFontJS, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-    wkController.addUserScript(largerFontScriptWK)
+    if let customCSSScript = generateCustomCSS() {
+      wkController.addUserScript(customCSSScript)
+    }
     
     // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
@@ -61,9 +49,7 @@ class MainViewController: UIViewController {
     let urlRequest = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy)
     webView.load(urlRequest)
     
-    webView.configuration.userContentController.add(self, name: "logHandler")
     webView.addInputAccessoryView(toolbar: UIToolbar(frame: .zero))
-    webView.navigationDelegate = self
     
     webView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(webView)
@@ -74,6 +60,28 @@ class MainViewController: UIViewController {
       webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
+  }
+  
+  func generateMetaViewportScript() -> WKUserScript? {
+    guard let scriptPath = Bundle.main.path(forResource: "betterroam", ofType: "js"),
+      let scriptContent = try? String(contentsOfFile: scriptPath) else {
+        return nil
+    }
+    
+    let script = WKUserScript(source: scriptContent, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+    return script
+  }
+  
+  func generateCustomCSS() -> WKUserScript? {
+    guard let cssPath = Bundle.main.path(forResource: "betterroam", ofType: "css"),
+      let cssContent = try? String(contentsOfFile: cssPath) else {
+        return nil
+    }
+    
+    let cssScript = "var style = document.createElement('style'); style.innerHTML = '\(cssContent.components(separatedBy: .newlines).joined())'; document.head.appendChild(style);"
+  
+    let script = WKUserScript(source: cssScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+    return script
   }
   
   func getToolbar(height: CGFloat) -> UIToolbar? {
@@ -145,15 +153,4 @@ class MainViewController: UIViewController {
     return .darkContent
   }
   
-}
-
-extension MainViewController: WKScriptMessageHandler {
-  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    if message.name == "logHandler" {
-      print("LOG: \(message.body)")
-    }
-  }
-}
-
-extension MainViewController: WKNavigationDelegate {
 }

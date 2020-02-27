@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		111F07B62407B4BF003B90A5 /* WKWebView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111F07B52407B4BF003B90A5 /* WKWebView+Ext.swift */; };
+		111F07BA24080BEE003B90A5 /* betterroam.css in Resources */ = {isa = PBXBuildFile; fileRef = 111F07B924080BEE003B90A5 /* betterroam.css */; };
+		111F07BC240812E7003B90A5 /* betterroam.js in Resources */ = {isa = PBXBuildFile; fileRef = 111F07BB240812E7003B90A5 /* betterroam.js */; };
 		11799EEB2406102F009049FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11799EEA2406102F009049FD /* AppDelegate.swift */; };
 		11799EED2406102F009049FD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11799EEC2406102F009049FD /* SceneDelegate.swift */; };
 		11799EEF2406102F009049FD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11799EEE2406102F009049FD /* MainViewController.swift */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		111F07B52407B4BF003B90A5 /* WKWebView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Ext.swift"; sourceTree = "<group>"; };
+		111F07B924080BEE003B90A5 /* betterroam.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = betterroam.css; sourceTree = "<group>"; };
+		111F07BB240812E7003B90A5 /* betterroam.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = betterroam.js; sourceTree = "<group>"; };
 		11799EE72406102F009049FD /* RoamMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoamMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11799EEA2406102F009049FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11799EEC2406102F009049FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 				11799EF324061031009049FD /* Assets.xcassets */,
 				11799EF524061031009049FD /* LaunchScreen.storyboard */,
 				11799EF824061031009049FD /* Info.plist */,
+				111F07B924080BEE003B90A5 /* betterroam.css */,
+				111F07BB240812E7003B90A5 /* betterroam.js */,
 				111F07B52407B4BF003B90A5 /* WKWebView+Ext.swift */,
 			);
 			path = RoamMobile;
@@ -130,7 +136,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111F07BA24080BEE003B90A5 /* betterroam.css in Resources */,
 				11799EF724061031009049FD /* LaunchScreen.storyboard in Resources */,
+				111F07BC240812E7003B90A5 /* betterroam.js in Resources */,
 				11799EF424061031009049FD /* Assets.xcassets in Resources */,
 				11799EF22406102F009049FD /* Main.storyboard in Resources */,
 			);
