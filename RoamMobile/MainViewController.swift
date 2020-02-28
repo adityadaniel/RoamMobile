@@ -49,7 +49,7 @@ class MainViewController: UIViewController {
     let urlRequest = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy)
     webView.load(urlRequest)
     
-    webView.addInputAccessoryView(toolbar: UIToolbar(frame: .zero))
+    webView.addInputAccessoryView(toolbar: getToolbar(height: 44))
     
     webView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(webView)
@@ -118,7 +118,7 @@ class MainViewController: UIViewController {
     toolBar.isUserInteractionEnabled = true
     
     toolBar.sizeToFit()
-    return UIToolbar(frame: .zero)
+    return toolBar
   }
   
   @objc func handleIncreaseIndent() {
