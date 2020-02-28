@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
     
     setupWebView()
   }
@@ -39,6 +39,10 @@ class MainViewController: UIViewController {
     if let customCSSScript = generateCustomCSS() {
       wkController.addUserScript(customCSSScript)
     }
+    
+//    if let darkModeCSSSCript = generateDarkModeCSS() {
+//      wkController.addUserScript(darkModeCSSSCript)
+//    }
     
     // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
@@ -60,6 +64,20 @@ class MainViewController: UIViewController {
       webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
+    
+    webView.navigationDelegate = self
+  }
+  
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    
+    if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+      if traitCollection.userInterfaceStyle == .dark {
+        // do something with dark mode, possibly inject javascript then reload the page
+      } else {
+        // remove the dark mode css
+      }
+    }
   }
   
   func generateMetaViewportScript() -> WKUserScript? {
@@ -83,6 +101,18 @@ class MainViewController: UIViewController {
     let script = WKUserScript(source: cssScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     return script
   }
+  
+  func generateDarkModeCSS() -> WKUserScript? {
+     guard let darkModeCssPath = Bundle.main.path(forResource: "darkmode-roam", ofType: "css"),
+       let darkModeCssContent = try? String(contentsOfFile: darkModeCssPath) else {
+         return nil
+     }
+     
+     let darkModeCssScript = "var style = document.createElement('style'); style.innerHTML = '\(darkModeCssContent.components(separatedBy: .newlines).joined())'; document.head.appendChild(style);"
+   
+     let script = WKUserScript(source: darkModeCssScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+     return script
+   }
   
   func getToolbar(height: CGFloat) -> UIToolbar? {
     let screenWidth = view.bounds.width
@@ -154,3 +184,29 @@ class MainViewController: UIViewController {
   }
   
 }
+
+extension MainViewController: WKNavigationDelegate {
+  
+  func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    guard let url = navigationAction.request.url else { return }
+    print(url)
+    if url.absoluteString.contains("https://roamresearch.com/#/app") {
+      if traitCollection.userInterfaceStyle == .dark {
+        guard let darkModeCssPath = Bundle.main.path(forResource: "darkmode-roam", ofType: "css"),
+          let darkModeCssContent = try? String(contentsOfFile: darkModeCssPath) else {
+            return
+        }
+        
+        let darkModeCssScript = "var style = document.createElement('style'); style.innerHTML = '\(darkModeCssContent.components(separatedBy: .newlines).joined())'; document.head.appendChild(style);"
+        
+        let popOverScript = "document.getElementsByClassName('bp3-elevation-3')[0].getAttribute('style').replace('background-color: white;', 'background-color: #191919;');"
+        
+        webView.evaluateJavaScript(darkModeCssScript, completionHandler: nil)
+        webView.evaluateJavaScript(popOverScript, completionHandler: nil)
+      }
+    }
+    decisionHandler(.allow)
+  }
+}
+
+

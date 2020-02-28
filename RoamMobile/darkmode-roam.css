@@ -1,0 +1,47 @@
+body {
+  background-color: #191919;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+  color: #1A74CA !important;
+}
+.roam-app h1 {
+  color: #C5C5C5 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: bold;
+}
+.roam-app {
+  color: #C5C5C5 !important;
+}
+.roam-topbar {
+  background-color: #1f1f1f;
+}
+.rm-page-ref-link-color {
+  color: #1A74CA;
+}
+.rm-page-ref-tag {
+  color: #1A74CA !important;
+  background-color: #263139;
+  border-radius: 3px;
+  padding: 2px 3px 2px 3px;
+}
+.rm-page-ref-tag:hover {
+  background-color: #353f46;
+  text-decoration: none;
+}
+.block-highlight-blue {
+  background-color: #1c2e3e;
+}
+.rm-reference-item {
+  background-color: #182026;
+}
+.bp3-menu {
+  background-color: #1f1f1f;
+}
+.bp3-popover .bp3-popover-arrow-fill {
+  background-color: #1f1f1f;
+}
+.bp3-elevation-e {
+  color: #94ABAB;
+  background-color: #1f1f1f;
+}
