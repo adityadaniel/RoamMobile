@@ -79,7 +79,7 @@ class MainViewController: UIViewController {
     }
     
     let cssScript = "var style = document.createElement('style'); style.innerHTML = '\(cssContent.components(separatedBy: .newlines).joined())'; document.head.appendChild(style);"
-  
+    
     let script = WKUserScript(source: cssScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
     return script
   }
@@ -100,18 +100,22 @@ class MainViewController: UIViewController {
     let upButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveUp))
     let downButton = UIBarButtonItem(image: UIImage(systemName: "arrow.down", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveDown))
     let searchOrCreateButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleSearchOrCreate))
+    let imageUploadButton = UIBarButtonItem(image: UIImage(systemName: "photo", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleImageUpload))
+    let dismissToolbar = UIBarButtonItem(image: UIImage(systemName: "xmark.square.fill", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleRemoveMobileBar))
     let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil )
     
     let toolBarItems = [
-      increaseIndentButton,
-      spacer,
       decreaseIndentButton,
+      spacer,
+      increaseIndentButton,
       spacer,
       upButton,
       spacer,
       downButton,
       spacer,
-      searchOrCreateButton
+      imageUploadButton,
+      spacer,
+      dismissToolbar
     ]
     
     toolBar.setItems(toolBarItems, animated: false)
@@ -146,6 +150,16 @@ class MainViewController: UIViewController {
   @objc func handleSearchOrCreate() {
     // #find-or-create-input
     let jsScript = "document.getElementById('find-or-create-input').focus();"
+    webView.evaluateJavaScript(jsScript, completionHandler: nil)
+  }
+  
+  @objc func handleImageUpload() {
+    let jsScript = "document.getElementsByClassName('bp3-button bp3-minimal bp3-icon-media rm-mobile-button dont-unfocus-block')[0].click();"
+    webView.evaluateJavaScript(jsScript, completionHandler: nil)
+  }
+  
+  @objc func handleRemoveMobileBar() {
+    let jsScript = "document.getElementById('rm-mobile-bar').style.display = 'none'"
     webView.evaluateJavaScript(jsScript, completionHandler: nil)
   }
   
