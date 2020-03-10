@@ -99,7 +99,7 @@ class MainViewController: UIViewController {
     let decreaseIndentButton = UIBarButtonItem(image: UIImage(systemName: "decrease.indent", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleDecreaseIndent))
     let upButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveUp))
     let downButton = UIBarButtonItem(image: UIImage(systemName: "arrow.down", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleBlockMoveDown))
-    let searchOrCreateButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleSearchOrCreate))
+    _ = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleSearchOrCreate))
     let imageUploadButton = UIBarButtonItem(image: UIImage(systemName: "photo", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleImageUpload))
     let dismissToolbar = UIBarButtonItem(image: UIImage(systemName: "xmark.square.fill", withConfiguration: preferredSymbolConfig), style: .plain, target: self, action: #selector(handleRemoveMobileBar))
     let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil )
