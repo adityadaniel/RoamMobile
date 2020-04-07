@@ -16,6 +16,7 @@
 		11799EF22406102F009049FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11799EF02406102F009049FD /* Main.storyboard */; };
 		11799EF424061031009049FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11799EF324061031009049FD /* Assets.xcassets */; };
 		11799EF724061031009049FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11799EF524061031009049FD /* LaunchScreen.storyboard */; };
+		11E4B053243C7B1000077541 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E4B052243C7B1000077541 /* UIColor+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		11799EF624061031009049FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		11799EF824061031009049FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11799EFE24063DEA009049FD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		11E4B052243C7B1000077541 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 		11799EE92406102F009049FD /* RoamMobile */ = {
 			isa = PBXGroup;
 			children = (
+				11E4B051243C7B0400077541 /* Extensions */,
 				11799EEA2406102F009049FD /* AppDelegate.swift */,
 				11799EEC2406102F009049FD /* SceneDelegate.swift */,
 				11799EEE2406102F009049FD /* MainViewController.swift */,
@@ -76,6 +79,14 @@
 				111F07B52407B4BF003B90A5 /* WKWebView+Ext.swift */,
 			);
 			path = RoamMobile;
+			sourceTree = "<group>";
+		};
+		11E4B051243C7B0400077541 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				11E4B052243C7B1000077541 /* UIColor+Ext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +164,7 @@
 			files = (
 				11799EEF2406102F009049FD /* MainViewController.swift in Sources */,
 				111F07B62407B4BF003B90A5 /* WKWebView+Ext.swift in Sources */,
+				11E4B053243C7B1000077541 /* UIColor+Ext.swift in Sources */,
 				11799EEB2406102F009049FD /* AppDelegate.swift in Sources */,
 				11799EED2406102F009049FD /* SceneDelegate.swift in Sources */,
 			);

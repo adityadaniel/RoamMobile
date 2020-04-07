@@ -36,9 +36,9 @@ class MainViewController: UIViewController {
       wkController.addUserScript(disableZoomScript)
     }
     
-    if let customCSSScript = generateCustomCSS() {
-      wkController.addUserScript(customCSSScript)
-    }
+//    if let customCSSScript = generateCustomCSS() {
+//      wkController.addUserScript(customCSSScript)
+//    }
     
     // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
@@ -164,7 +164,7 @@ class MainViewController: UIViewController {
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .darkContent
+    return view.backgroundColor == .white ? .darkContent : .lightContent
   }
   
 }
