@@ -36,16 +36,11 @@ class MainViewController: UIViewController {
       wkController.addUserScript(disableZoomScript)
     }
     
-//    if let customCSSScript = generateCustomCSS() {
-//      wkController.addUserScript(customCSSScript)
-//    }
-    
-    // need user agent in order to be able to sign in when using Google service
     config.applicationNameForUserAgent = "Version/8.0.2 Safari/600.2.5"
     config.userContentController = wkController
     
     webView = WKWebView(frame: .zero, configuration: config)
-    let url = URL(string: "https://roamresearch.com/#/")
+    let url = URL(string: "https://roamresearch.com/#/app")
     let urlRequest = URLRequest(url: url!, cachePolicy: .useProtocolCachePolicy)
     webView.load(urlRequest)
     
