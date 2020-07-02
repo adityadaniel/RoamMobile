@@ -21,26 +21,10 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         setupWebView()
-        setupGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    private func setupGestureRecognizer() {
-        let twoFingerSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleTwoFingerSwipe))
-        twoFingerSwipe.numberOfTouchesRequired = 2
-        twoFingerSwipe.direction = .down
-        twoFingerSwipe.delegate = self
-        view.addGestureRecognizer(twoFingerSwipe)
-    }
-    
-    @objc private func handleTwoFingerSwipe() {
-        let newVC = UIViewController()
-        let navVc = UINavigationController(rootViewController: newVC)
-        newVC.view.backgroundColor = .red
-        navigationController?.present(navVc, animated: true)
     }
     
     func setupWebView() {
@@ -94,11 +78,4 @@ class MainViewController: UIViewController {
         return view.backgroundColor == .white ? .darkContent : .lightContent
     }
     
-}
-
-
-extension MainViewController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        true
-    }
 }
