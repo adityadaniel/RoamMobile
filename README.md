@@ -9,8 +9,8 @@ RoamMobile is simple webview app for RoamReseach.
 * URL scheme on `roammobile://` to quickly open the app. You can use this urlscheme and paired with Shortcuts to quickly open web pages or any other content
 
 ## TODO
-[ ] Enable default database settings so no need to pick which database upon opening
-[ ] Enable top and bottom custom color so it'll match with user's custom theme on Roam
+- [ ] Enable default database settings so no need to pick which database upon opening
+- [ ] Enable top and bottom custom color so it'll match with user's custom theme on Roam
 
 Suggestions, feature request or feedbacks are highly appreciated! 🙇🏻‍♂️
 
